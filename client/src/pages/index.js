@@ -6,33 +6,10 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import ListIcon from '@mui/icons-material/List';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Home() {
-
-  const deezer_api_url = "https://api.deezer.com/search/album";
-
-  const handleSearch = async () => {
-    try {
-      const response = await fetch(`${deezer_api_url}?q=tere liye`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch albums');
-      }
-      const data = await response.json();
-      if (data.data) {
-        console.log(data.data);
-        // setAlbums(data.data);
-        // setError(null);
-      } else {
-        // setAlbums([]);
-        // setError('No albums found');
-      }
-    } catch (error) {
-      // setError(error.message);
-      console.log(error);
-    }
-  };
-
-  handleSearch()
 
   // const songList = [
   //   { id: '0', src: "/songs/a_beautiful_day.mp3", cover: "", title: "A beautiful day" },
@@ -42,6 +19,7 @@ function Home() {
   //   { id: '4', src: "/songs/Top Flame.mp3", cover: "/images/Top Flame.webp", title: "Top Flame - Jerry" },
   // ];
 
+  const [showMenu, setShowMenu] = useState(false);
   const [currentSong, setCurrentSong] = useState(songList[0].src);
   const [currentSongSource, setCurrentSongSource] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
@@ -147,7 +125,7 @@ function Home() {
     let audioElement = document.getElementById('audioElement');
     if (isMute) {
       setIsMute(false);
-      audioElement.volume = volume/100;
+      audioElement.volume = volume / 100;
     }
     else {
       setIsMute(true);
@@ -159,20 +137,23 @@ function Home() {
   return (
     <>
       <div className='bg-black'>
-        <div className='flex justify-between h-[100vh]'>
-          <div className='w-[25%] border-r-[1px] rounded-t-xl'>
-            <div className='text-center p-1 bg-white text-black font-bold rounded-t-xl'>Songs List</div>
-            <div className='space-y-3 py-5'>
+        <div className='flex justify-between h-[100vh] relative'>
+          <div className='block md:hidden p-2 cursor-pointer absolute' onClick={()=>setShowMenu(true)}>
+            <ListIcon />
+          </div>
+          <div className='w-[25%] border-r-[1px] rounded-t-xl hidden md:block'>
+            <div className='text-center p-1 bg-white text-black font-bold rounded-t-xl text-[15px] md:text-[20px]'>Songs List</div>
+            <div className='space-y-3 py-1 md:py-3 lg:py-5'>
               {songList?.map((song, index) => (
-                <div key={index} className='pb-1 px-2'>
+                <div key={index} className='pb-1 md:px-1 lg:px-2'>
                   <div className='flex items-center justify-between py-2'>
                     <div className='flex items-center space-x-3 max-w-[88%]'>
-                      <img src={song.cover} alt="" className='w-[40px] h-[40px] rounded-full border-2' />
-                      <div className='text-sm'>{song.title}</div>
+                      <img src={song.cover} alt="" className='w-[20px] h-[20px] md:w-[30px] md:h-[30px] lg:w-[40px] lg:h-[40px] rounded-full border-2' />
+                      <div className='text-[10px] lg:text-sm'>{song.title}</div>
                     </div>
 
-                    <div className='border-2 rounded-full cursor-pointer' >
-                      {currentSongSource !== song.src ? <PlayArrowIcon onClick={() => onPlay(index)} /> : <PauseIcon onClick={() => onPause(index)} />}
+                    <div className='lg:border-2 rounded-full cursor-pointer' >
+                      {currentSongSource !== song.src ? <PlayArrowIcon onClick={() => onPlay(index)} className='text-[15px] md:text-[20px] lg:text-[25px]' /> : <PauseIcon onClick={() => onPause(index)} className='text-[15px] md:text-[20px] lg:text-[25px]' />}
                     </div>
                   </div>
 
@@ -182,9 +163,33 @@ function Home() {
             </div>
           </div>
 
-          <div className={`w-[75%] h-[80vh] ${isPlaying && 'bg-[url(/images/playing.gif)]'} bg-cover`}>
+          {showMenu &&
+            <div className='w-full h-[100vh] bg-black absolute z-[10]'>
+              <div className='text-center p-1 bg-white text-black font-bold rounded-t-xl text-[15px] md:text-[20px] flex justify-between px-5'>Songs List <span className='cursor-pointer' onClick={()=>setShowMenu(false)}><CloseIcon/></span></div>
+              <div className='space-y-3 py-1 px-5'>
+                {songList?.map((song, index) => (
+                  <div key={index} className='pb-1 md:px-1 lg:px-2'>
+                    <div className='flex items-center justify-between py-2'>
+                      <div className='flex items-center space-x-3 max-w-[88%]'>
+                        <img src={song.cover} alt="" className='w-[20px] h-[20px] md:w-[30px] md:h-[30px] lg:w-[40px] lg:h-[40px] rounded-full border-2' />
+                        <div className='text-[10px] lg:text-sm'>{song.title}</div>
+                      </div>
+
+                      <div className='lg:border-2 rounded-full cursor-pointer' >
+                        {currentSongSource !== song.src ? <PlayArrowIcon onClick={() => { onPlay(index);  setShowMenu(false)}} className='text-[15px] md:text-[20px] lg:text-[25px]' /> : <PauseIcon onClick={() => onPause(index)} className='text-[15px] md:text-[20px] lg:text-[25px]' />}
+                      </div>
+                    </div>
+
+                    <hr />
+                  </div>
+                ))}
+              </div>
+            </div>
+          }
+
+          <div className={`w-[100%] md:w-[75%] h-[80vh] ${isPlaying && 'bg-[url(/images/playing.gif)]'} bg-cover`}>
             <div className='flex flex-col items-center justify-center h-full space-y-10 bg-black bg-opacity-80'>
-              <img src={songList[currentSongIndex].cover} alt="" className='w-[25%] border-2 h-[40%]' />
+              <img src={songList[currentSongIndex].cover} alt="" className='w-[45%] lg:w-[25%] border-2 h-[40%]' />
               <div className='text-[13px]'>{songList[currentSongIndex].title}</div>
             </div>
           </div>
@@ -202,19 +207,19 @@ function Home() {
           </div>
 
           <div className='w-[100%] flex items-center justify-between'>
-            <div className='text-[13px] w-[30%]'>
+            <div className='text-[13px] w-[25%] sm:w-[30%]'>
               00:00 / {currentSongDuration}
             </div>
 
-            <div className='space-x-10 w-[30%] text-center'>
-              <SkipPreviousIcon style={{ cursor: 'pointer', fontSize: '33px' }} onClick={previousSong} />
-              {!isPlaying ? <PlayArrowIcon style={{ cursor: 'pointer', fontSize: '33px' }} onClick={() => onMasterPlay(currentSong, currentSongIndex, isPlaying)} /> : <PauseIcon style={{ cursor: 'pointer', fontSize: '33px' }} onClick={() => onMasterPlay(currentSong, currentSongIndex, isPlaying)} />}
-              <SkipNextIcon style={{ cursor: 'pointer', fontSize: '33px' }} onClick={nextSong} />
+            <div className='space-x-1 sm:space-x-10 w-[25%] sm:w-[30%] text-center'>
+              <SkipPreviousIcon style={{ cursor: 'pointer' }} className='text-[20px] md:text-[33px]' onClick={previousSong} />
+              {!isPlaying ? <PlayArrowIcon style={{ cursor: 'pointer' }} className='text-[20px] md:text-[33px]' onClick={() => onMasterPlay(currentSong, currentSongIndex, isPlaying)} /> : <PauseIcon style={{ cursor: 'pointer' }} className='text-[20px] md:text-[33px]' onClick={() => onMasterPlay(currentSong, currentSongIndex, isPlaying)} />}
+              <SkipNextIcon style={{ cursor: 'pointer' }} className='text-[20px] md:text-[33px]' onClick={nextSong} />
             </div>
 
-            <div className='flex items-center justify-end space-x-3 text-[12px] w-[30%] font-bold'>
-              <div className='flex items-center justify-end w-[15%] space-x-2'>{isMute ? <VolumeOffIcon style={{cursor:'pointer'}} onClick={changeToMute} /> : <VolumeUpIcon style={{cursor:'pointer'}} onClick={changeToMute} />} <div className='w-[40%]'>{volume}%</div></div>
-              <input type="range" value={volume} min="0" max="100" className='cursor-pointer h-1 bg-gray-200 rounded-lg appearance-none dark:bg-gray-400' onChange={(e) => changeVolume(e)} />
+            <div className='flex items-center justify-end space-x-1 sm:space-x-3 text-[10px] sm:text-[12px] w-[25%] sm:w-[30%] font-bold'>
+              <div className='flex items-center justify-end sm:w-[15%] space-x-1 sm:space-x-2'>{isMute ? <VolumeOffIcon style={{ cursor: 'pointer' }} className="text-[20px] md:text-[25px]" onClick={changeToMute} /> : <VolumeUpIcon style={{ cursor: 'pointer' }} className="text-[20px] md:text-[25px]" onClick={changeToMute} />} <div className='w-[40%]'>{volume}%</div></div>
+              <input type="range" value={volume} min="0" max="100" className='cursor-pointer h-1 w-[60%] sm:w-[30%] bg-gray-200 rounded-lg appearance-none dark:bg-gray-400' onChange={(e) => changeVolume(e)} />
             </div>
           </div>
         </div>
