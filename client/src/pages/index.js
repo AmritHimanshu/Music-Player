@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Image from 'next/image'
 import songList from './components/songList';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
@@ -148,7 +149,7 @@ function Home() {
                 <div key={index} className='pb-1 md:px-1 lg:px-2'>
                   <div className='flex items-center justify-between py-2'>
                     <div className='flex items-center space-x-3 max-w-[88%]'>
-                      <img src={song.cover} alt="" className='w-[20px] h-[20px] md:w-[30px] md:h-[30px] lg:w-[40px] lg:h-[40px] rounded-full border-2' />
+                      <Image src={song.cover} alt="" width={500} height={500} className='w-[20px] h-[20px] md:w-[30px] md:h-[30px] lg:w-[40px] lg:h-[40px] rounded-full border-2' />
                       <div className='text-[10px] lg:text-sm'>{song.title}</div>
                     </div>
 
@@ -171,7 +172,7 @@ function Home() {
                   <div key={index} className='pb-1 md:px-1 lg:px-2'>
                     <div className='flex items-center justify-between py-2'>
                       <div className='flex items-center space-x-3 max-w-[88%]'>
-                        <img src={song.cover} alt="" className='w-[20px] h-[20px] md:w-[30px] md:h-[30px] lg:w-[40px] lg:h-[40px] rounded-full border-2' />
+                        <Image src={song.cover} alt="" width={500} height={500} className='w-[20px] h-[20px] md:w-[30px] md:h-[30px] lg:w-[40px] lg:h-[40px] rounded-full border-2' />
                         <div className='text-[10px] lg:text-sm'>{song.title}</div>
                       </div>
 
@@ -188,8 +189,9 @@ function Home() {
           }
 
           <div className={`w-[100%] md:w-[75%] h-[80vh] ${isPlaying && 'bg-[url(/images/playing.gif)]'} bg-cover`}>
+          {/* <div className={`w-[100%] md:w-[75%] h-[80vh] `}> */}
             <div className='flex flex-col items-center justify-center h-full space-y-10 bg-black bg-opacity-80'>
-              <img src={songList[currentSongIndex].cover} alt="" className='w-[45%] lg:w-[25%] border-2 h-[40%]' />
+              <Image src={songList[currentSongIndex].cover} alt="" width={500} height={500} className='w-[45%] lg:w-[25%] border-2 h-[40%]' />
               <div className='text-[13px]'>{songList[currentSongIndex].title}</div>
             </div>
           </div>
@@ -198,7 +200,7 @@ function Home() {
         <div className='fixed bottom-0 px-5 py-3 flex flex-col items-center justify-center space-y-3 w-full border-t-[1px] bg-black'>
           <audio src={currentSong} id="audioElement"></audio>
           <div className='text-[13px] text-start w-full flex items-center space-x-3'>
-            {isPlaying && <img src="images/playing.gif" alt="" className='w-[50px]' />}
+            {isPlaying && <Image src="/images/playing.gif" alt="" width={500} height={500} className='w-[50px]' />}
             <div>{currentSongTitle}</div>
           </div>
 
