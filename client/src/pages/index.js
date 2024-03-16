@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import Image from 'next/image'
-import songList from './components/songList';
+import Image from 'next/image';
+import {songList} from './components/songList.js';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -11,6 +11,8 @@ import ListIcon from '@mui/icons-material/List';
 import CloseIcon from '@mui/icons-material/Close';
 
 function Home() {
+
+  // console.log(songList)
 
   // const songList = [
   //   { id: '0', src: "/songs/a_beautiful_day.mp3", cover: "", title: "A beautiful day" },
@@ -189,7 +191,6 @@ function Home() {
           }
 
           <div className={`w-[100%] md:w-[75%] h-[80vh] ${isPlaying && 'bg-[url(/images/playing.gif)]'} bg-cover`}>
-          {/* <div className={`w-[100%] md:w-[75%] h-[80vh] `}> */}
             <div className='flex flex-col items-center justify-center h-full space-y-10 bg-black bg-opacity-80'>
               <Image src={songList[currentSongIndex].cover} alt="" width={500} height={500} className='w-[45%] lg:w-[25%] border-2 h-[40%]' />
               <div className='text-[13px]'>{songList[currentSongIndex].title}</div>
