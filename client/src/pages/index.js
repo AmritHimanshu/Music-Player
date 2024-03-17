@@ -12,15 +12,10 @@ import CloseIcon from '@mui/icons-material/Close';
 
 function Home() {
 
-  // console.log(songList)
-
-  // const songList = [
-  //   { id: '0', src: "/songs/a_beautiful_day.mp3", cover: "", title: "A beautiful day" },
-  //   { id: '1', src: "/songs/Download - The Landers.mp3", cover: "/images/Download.jpg", title: "Download - The Landers" },
-  //   { id: '2', src: "/songs/MiAmor.mp3", cover: "/images/Mi amor.jpg", title: "Mi Amor - Sharn" },
-  //   { id: '3', src: "/songs/Showstopper - Jerry.mp3", cover: "/images/Showstopper.jpg", title: "Showstopper - Jerry" },
-  //   { id: '4', src: "/songs/Top Flame.mp3", cover: "/images/Top Flame.webp", title: "Top Flame - Jerry" },
-  // ];
+  const CLIENT_ID = "4e6080a720e04db2ba4772e06aed0587";
+  const REDIRECT_URL = "http://localhost:3000";
+  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const RESPONSE_TYPE = "token";
 
   const [showMenu, setShowMenu] = useState(false);
   const [currentSong, setCurrentSong] = useState(songList[0].src);
@@ -220,7 +215,7 @@ function Home() {
               <SkipNextIcon style={{ cursor: 'pointer' }} className='text-[20px] md:text-[33px]' onClick={nextSong} />
             </div>
 
-            <div className='flex items-center justify-end space-x-1 sm:space-x-3 text-[10px] sm:text-[12px] w-[25%] sm:w-[30%] font-bold'>
+            <div className='flex items-center justify-end space-x-1 sm:space-x-3 text-[10px] sm:text-[12px] w-[30%] font-bold'>
               <div className='flex items-center justify-end sm:w-[15%] space-x-1 sm:space-x-2'>{isMute ? <VolumeOffIcon style={{ cursor: 'pointer' }} className="text-[20px] md:text-[25px]" onClick={changeToMute} /> : <VolumeUpIcon style={{ cursor: 'pointer' }} className="text-[20px] md:text-[25px]" onClick={changeToMute} />} <div className='w-[40%]'>{volume}%</div></div>
               <input type="range" value={volume} min="0" max="100" className='cursor-pointer h-1 w-[60%] sm:w-[30%] bg-gray-200 rounded-lg appearance-none dark:bg-gray-400' onChange={(e) => changeVolume(e)} />
             </div>
