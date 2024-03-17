@@ -23,7 +23,7 @@ function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState('0');
   const [volume, setVolume] = useState(8);
-  const [currentSongTitle, setCurrentSongTitle] = useState('A beautiful day');
+  const [currentSongTitle, setCurrentSongTitle] = useState('Top Flame - Jerry');
   const [currentSongIndex, setCurrentSongIndex] = useState('0');
   const [currentSongDuration, setCurrentSongDuration] = useState('00:00');
   const [isMute, setIsMute] = useState(false);
