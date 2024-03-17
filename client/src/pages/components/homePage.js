@@ -12,11 +12,6 @@ import CloseIcon from '@mui/icons-material/Close';
 
 function HomePage() {
 
-    const CLIENT_ID = "4e6080a720e04db2ba4772e06aed0587";
-    const REDIRECT_URL = "http://localhost:3000";
-    const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-    const RESPONSE_TYPE = "token";
-
     const [showMenu, setShowMenu] = useState(false);
     const [currentSong, setCurrentSong] = useState(songList[0].src);
     const [currentSongSource, setCurrentSongSource] = useState('');
